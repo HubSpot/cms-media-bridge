@@ -68,7 +68,7 @@
   "label" : "Media",
   "required" : false,
   "locked" : false,
-  "supported_source_types" : [ "media_bridge" ],
+  "supported_source_types" : [ "media_bridge", "oembed" ],
   "supported_oembed_types" : [ "photo", "video", "link", "rich" ],
   "supported_media_bridge_providers" : [ ],
   "type" : "embed",
