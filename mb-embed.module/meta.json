@@ -1,0 +1,7 @@
+{
+  "global" : false,
+  "host_template_types" : [ "ANY" ],
+  "module_id" : 42217680217,
+  "label" : "MB page embed",
+  "is_available_for_new_content" : true
+}

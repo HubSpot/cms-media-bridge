@@ -1,0 +1,31 @@
+[ {
+  "id" : "51a4f6d1-134f-b11c-6f44-3bbc9a9f11a5",
+  "name" : "embed_field",
+  "label" : "Media",
+  "required" : false,
+  "locked" : false,
+  "supported_source_types" : [ "html", "media_bridge", "oembed" ],
+  "supported_oembed_types" : [ "photo", "video", "link", "rich" ],
+  "supported_media_bridge_providers" : [ ],
+  "type" : "embed",
+  "default" : {
+    "source_type" : "media_bridge",
+    "media_bridge_object" : {
+      "id" : null,
+      "oembed_url" : "",
+      "provider_id" : null,
+      "oembed_response" : { },
+      "size_type" : "auto"
+    }
+  }
+}, {
+  "id" : "600c27c5-3e13-92ad-2394-c23b33afb5b5",
+  "name" : "reveal_on",
+  "label" : "Reveal On",
+  "required" : false,
+  "locked" : false,
+  "display" : "select",
+  "choices" : [ [ "load", "Load" ], [ "hover", "Hover" ], [ "click", "Click" ] ],
+  "type" : "choice",
+  "default" : "load"
+} ]

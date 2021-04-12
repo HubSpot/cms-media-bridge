@@ -1,0 +1,3 @@
+{% from '/media-bridge/mb-hubl-macros.html' import mb_email_embed %}
+
+{{ mb_email_embed(module.embed_field, { posterUrl: module.custom_poster.src, linkUrl: module.custom_link.url.href }) }}

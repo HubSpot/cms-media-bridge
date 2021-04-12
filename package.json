@@ -1,0 +1,15 @@
+{
+  "name": "cms-media-bridge",
+  "version": "1.0.0",
+  "description": "Examples and reference modules for HubSpot Media Bridge media",
+  "main": "index.js",
+  "repository": "git@github.com:HubSpot/cms-media-bridge.git",
+  "author": "lbryant <lbryant@hubspot.com>",
+  "license": "MIT",
+  "scripts": {
+    "upload": "hs upload mb-hubl-macros.html /media-bridge/mb-hubl-macros.html && hs upload mb-embed.module media-bridge/mb-embed.module && hs upload mb-email-embed.module media-bridge/mb-email-embed.module"
+  },
+  "devDependencies": {
+    "@hubspot/cms-cli": "^2.2.3"
+  }
+}

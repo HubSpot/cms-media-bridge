@@ -1,0 +1,75 @@
+<!--
+    templateType: page
+    isAvailableForNewContent: false
+-->
+{% macro mb_embed(embedField, options) %}
+  {% if embedField.source_type == "oembed" || embedField.source_type == "media_bridge" %}
+    {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
+    {% set oEmbedResp = oEmbedData.oembed_response %}
+    {% if oEmbedData.oembed_url is defined and oEmbedResp is defined %}
+      {% set posterUrl = options.posterUrl || oEmbedResp.thumbnail_url %}
+      <div class="hs-mb-embed-wrapper"
+           data-oembed-url="{{ oEmbedData.oembed_url }}"
+           data-size-type="{{ oEmbedData.size_type }}"
+           data-width="{{ oEmbedData.width }}"
+           data-height=" {{ oEmbedData.height }}"
+           data-reveal-on="{{ options.revealOn }}"
+           style="position: relative; background: black; {% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
+
+          {% if options.eager %}
+          {{ oEmbedResp.html|safe }}
+          {% else %}
+          <img class="hs-mb-embed-placeholder" src="{{ posterUrl }}" style="display: block; max-width: 100%; max-height: 100%; margin: 0 auto" />
+          {{ play_button() }}
+          {% endif %}
+
+          {% unless options.jsonGlobals == false %}
+          {# conveys oembeds on page to media-bridge-helper.js #}
+          <script type="text/javascript">
+            window._hsMediaBridge = window._hsMediaBridge || { embedsByUrl: {} };
+            window._hsMediaBridge.embedsByUrl["{{ oEmbedData.oembed_url }}"] = JSON.parse("{{ oEmbedResp|tojson|escapejson }}");
+          </script>
+          {% endunless %}
+      </div>
+      {% else %}
+          <p>Please select an MB video or enter an Embed Url</p>
+      {% endif %}
+    {% else %}
+    <p>Module only supports MB and oembed url</p>
+  {% endif %}
+{% endmacro %}
+
+{% macro mb_email_embed(embedField, options) %}
+  {% if embedField.source_type == "oembed" || embedField.source_type == "media_bridge" %}
+    {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
+    {% set oEmbedResp = oEmbedData.oembed_response %}
+    {% if oEmbedData.oembed_url is defined and oEmbedResp is defined %}
+      {% set linkUrl = options.linkUrl || oEmbedData.oembed_url %}
+      {% set posterUrl = options.posterUrl || oEmbedResp.thumbnail_url %}
+      <div class="hs-mb-embed-wrapper"
+           style="position: relative; background: black; {% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
+        <a href="{{ linkUrl }}">
+          <img class="hs-mb-embed-placeholder" src="{{ posterUrl }}"
+               style="display: block; max-width: 100%; max-height: 100%; margin: 0 auto"/>
+          {{ play_button() }}
+        </a>
+      </div>
+    {% else %}
+      <p>Please select an MB video or enter an Embed Url</p>
+    {% endif %}
+  {% else %}
+    <p>Module only supports MB and oembed url</p>
+  {% endif %}
+{% endmacro %}
+
+{% macro play_button(color) %}
+  {% set color = color || 'red' %}
+<div class="play-button hs-mb-embed-placeholder"
+     style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; align-items: center; cursor: pointer; display: flex; justify-content: center">
+  <svg viewBox="0 0 80 80"
+       style="display: block; height: auto; min-width: 80px; max-width: 20%; filter: drop-shadow(0 0 0.75rem #eee)">
+    <circle cx="41" cy="41" r="37" stroke="{{ color }}" stroke-width="4" fill="none"></circle>
+    <polygon fill="{{ color }}" stroke="{{ color }}" stroke-width="4" points="32,25 32,58 60,42"></polygon>
+  </svg>
+</div>
+{% endmacro %}
