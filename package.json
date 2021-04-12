@@ -7,7 +7,8 @@
   "author": "lbryant <lbryant@hubspot.com>",
   "license": "MIT",
   "scripts": {
-    "upload": "hs upload mb-hubl-macros.html /media-bridge/mb-hubl-macros.html && hs upload mb-embed.module media-bridge/mb-embed.module && hs upload mb-email-embed.module media-bridge/mb-email-embed.module"
+    "upload": "hs upload mb-hubl-macros.html /media-bridge/mb-hubl-macros.html && hs upload mb-embed.module media-bridge/mb-embed.module && hs upload mb-email-embed.module media-bridge/mb-email-embed.module",
+    "fetch": "hs fetch media-bridge/mb-embed.module && hs fetch media-bridge/mb-email-embed.module"
   },
   "devDependencies": {
     "@hubspot/cms-cli": "^2.2.3"
