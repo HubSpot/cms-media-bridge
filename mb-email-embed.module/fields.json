@@ -30,6 +30,17 @@
     "loading" : "lazy"
   }
 }, {
+  "id" : "e750fff3-4bf4-5a9a-7c35-6261b8459a2c",
+  "name" : "play_button_color",
+  "label" : "Play button color",
+  "required" : false,
+  "locked" : false,
+  "type" : "color",
+  "default" : {
+    "color" : "#FFFFFF",
+    "opacity" : 100
+  }
+}, {
   "id" : "911cd63c-677c-aac2-a1b7-3786311e461a",
   "name" : "custom_link_enabled",
   "label" : "Custom Link Enabled",
