@@ -28,4 +28,15 @@
   "choices" : [ [ "load", "Load" ], [ "hover", "Hover" ], [ "click", "Click" ] ],
   "type" : "choice",
   "default" : "load"
+}, {
+  "id" : "68f1077d-9740-3117-ce21-351af961baf7",
+  "name" : "play_button_color",
+  "label" : "Play button color",
+  "required" : false,
+  "locked" : false,
+  "type" : "color",
+  "default" : {
+    "color" : "#FFFFFF",
+    "opacity" : 100
+  }
 } ]
