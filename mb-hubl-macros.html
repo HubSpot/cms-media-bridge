@@ -2,6 +2,17 @@
     templateType: page
     isAvailableForNewContent: false
 -->
+
+<!--
+Renders a wrapper for a player based on embed field oEmbed value, meant for use in tandem with `media-bridge-embed-js`
+The oembed html is not eagerly rendered by default, instead we show a placeholder image which `media-bridge-embed-js` will transform into an iframe
+
+Options:
+- playButtonColor - overrides play button SVG overlay to specific color
+- posterUrl - customize placeholder image (defaults to oembed thumbnail)
+- revealOn - load (default), hover, click
+- eager - if true, render oembed html directly. recommended only if not using simple iframe players
+-->
 {% macro mb_embed(embedField, options) %}
   {% if embedField.source_type == "oembed" || embedField.source_type == "media_bridge" %}
     {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
@@ -14,13 +25,13 @@
            data-width="{{ oEmbedData.width }}"
            data-height=" {{ oEmbedData.height }}"
            data-reveal-on="{{ options.revealOn }}"
-           style="position: relative; background: black; {% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
+           style="position: relative; background: black; min-height: 200px; {% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
 
           {% if options.eager %}
             {{ oEmbedResp.html|safe }}
           {% else %}
             <img class="hs-mb-embed-placeholder" src="{{ posterUrl }}" style="display: block; max-width: 100%; max-height: 100%; margin: 0 auto" />
-            {{ play_button() }}
+            {{ play_button(options.playButtonColor) }}
           {% endif %}
 
           {% unless options.jsonGlobals == false %}
@@ -39,6 +50,16 @@
   {% endif %}
 {% endmacro %}
 
+<!--
+Renders an email appropriate player based on embed field oEmbed value, without JS/CSS dependencies
+It will show a poster image based on the oembed thumbnail, linked to the oembed_url.
+
+Options:
+- playButtonColor - overrides play button SVG overlay to specific color
+- posterUrl - customize placeholder image (defaults to oembed thumbnail)
+- linkUrl - customize where placeholder links (defaults to oembed url)
+-->
+
 {% macro mb_email_embed(embedField, options) %}
   {% if embedField.source_type == "oembed" || embedField.source_type == "media_bridge" %}
     {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
@@ -48,14 +69,14 @@
       {% set posterUrl = options.posterUrl || oEmbedResp.thumbnail_url %}
       <div class="hs-mb-embed-wrapper"
            style="position: relative; background: black; {% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
-        <a href="{{ linkUrl }}">
+        <a href="{{ linkUrl }}" target="_blank">
           <img class="hs-mb-embed-placeholder" src="{{ posterUrl }}"
                style="display: block; max-width: 100%; max-height: 100%; margin: 0 auto"/>
-          {{ play_button() }}
+          {{ play_button(options.playButtonColor) }}
         </a>
       </div>
     {% else %}
-      <p>Please select an MB video or enter an Embed Url</p>
+      <p>Please select a Media bridge video or enter an Embed Url</p>
     {% endif %}
   {% else %}
     <p>Module only supports MB and oembed url</p>
@@ -63,13 +84,13 @@
 {% endmacro %}
 
 {% macro play_button(color) %}
-  {% set color = color || 'red' %}
+  {% set color = color || 'white' %}
   <div class="play-button hs-mb-embed-placeholder"
        style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; align-items: center; cursor: pointer; display: flex; justify-content: center">
     <svg viewBox="0 0 80 80"
-         style="display: block; height: auto; min-width: 80px; max-width: 20%; filter: drop-shadow(0 0 0.75rem #eee)">
-      <circle cx="41" cy="41" r="37" stroke="{{ color }}" stroke-width="4" fill="none"></circle>
-      <polygon fill="{{ color }}" stroke="{{ color }}" stroke-width="4" points="32,25 32,58 60,42"></polygon>
+         style="display: block; height: auto; width: 20%; max-width: 120px; max-height: 120px; filter: drop-shadow(0 0 1rem #666)">
+      <circle cx="41" cy="41" r="37" stroke="{{ color }}" stroke-width="5" fill="none"></circle>
+      <polygon fill="{{ color }}" stroke="{{ color }}" stroke-width="5" points="32,25 32,58 60,42"></polygon>
     </svg>
   </div>
 {% endmacro %}

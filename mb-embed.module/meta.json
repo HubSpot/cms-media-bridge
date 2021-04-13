@@ -4,6 +4,6 @@
   "host_template_types" : [ "PAGE", "BLOG_POST", "BLOG_LISTING" ],
   "label" : "MB page embed",
   "is_available_for_new_content" : true,
-  "icon": "calendar-alt:SOLID",
-  "external_js": [ "https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js" ]
+  "icon" : "fontawesome-5.14.0:Play%20Circle:SOLID",
+  "external_js": [ ]
 }
