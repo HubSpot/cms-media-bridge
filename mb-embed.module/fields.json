@@ -29,6 +29,38 @@
   "type" : "choice",
   "default" : "load"
 }, {
+  "id" : "ad37dfb4-0af2-ac23-68a8-57e70a2e3fc2",
+  "name" : "custom_poster_enabled",
+  "label" : "Custom Poster Enabled",
+  "required" : false,
+  "locked" : false,
+  "display" : "checkbox",
+  "type" : "boolean",
+  "default" : false
+}, {
+  "id" : "af16c17b-1d77-1389-8185-50f5a1a20438",
+  "name" : "custom_poster",
+  "label" : "Custom Poster",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : "ad37dfb4-0af2-ac23-68a8-57e70a2e3fc2",
+    "controlling_value_regex" : "true",
+    "operator" : "EQUAL",
+    "access" : null,
+    "hidden_subfields" : null
+  },
+  "responsive" : true,
+  "resizable" : false,
+  "show_loading" : false,
+  "type" : "image",
+  "default" : {
+    "size_type" : "auto",
+    "src" : "",
+    "alt" : null,
+    "loading" : "disabled"
+  }
+}, {
   "id" : "68f1077d-9740-3117-ce21-351af961baf7",
   "name" : "play_button_color",
   "label" : "Play button color",

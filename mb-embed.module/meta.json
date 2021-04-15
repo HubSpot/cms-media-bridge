@@ -1,5 +1,4 @@
 {
-  "external_js" : [ ],
   "global" : false,
   "icon" : "fontawesome-5.14.0:Play%20Circle:SOLID",
   "host_template_types" : [ "PAGE", "BLOG_POST", "BLOG_LISTING" ],

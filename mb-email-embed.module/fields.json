@@ -1,4 +1,17 @@
 [ {
+  "id" : "5e7a3367-4f64-42b9-b967-c2317bdfee1d",
+  "name" : "embed_field",
+  "label" : "Media",
+  "required" : false,
+  "locked" : false,
+  "supported_source_types" : [ "media_bridge", "oembed" ],
+  "supported_oembed_types" : [ "photo", "video", "link", "rich" ],
+  "supported_media_bridge_providers" : [ ],
+  "type" : "embed",
+  "default" : {
+    "source_type" : "media_bridge"
+  }
+}, {
   "id" : "90065862-2cad-2282-f68d-3192c0837717",
   "name" : "custom_poster_enabled",
   "label" : "Custom Poster Enabled",
@@ -50,9 +63,9 @@
   "type" : "boolean",
   "default" : false
 }, {
-  "id" : "eb5135c0-e1ab-13c1-60ab-d9f7124205b1",
-  "name" : "custom_link",
-  "label" : "Custom Link",
+  "id" : "982e68c7-ba4e-783c-d738-0f985682e8e5",
+  "name" : "custom_link_url",
+  "label" : "Custom Link URL",
   "required" : false,
   "locked" : false,
   "visibility" : {
@@ -63,27 +76,10 @@
     "hidden_subfields" : null
   },
   "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG" ],
-  "type" : "link",
+  "type" : "url",
   "default" : {
-    "url" : {
-      "content_id" : null,
-      "type" : "EXTERNAL",
-      "href" : ""
-    },
-    "open_in_new_tab" : false,
-    "no_follow" : false
-  }
-}, {
-  "id" : "5e7a3367-4f64-42b9-b967-c2317bdfee1d",
-  "name" : "embed_field",
-  "label" : "Media",
-  "required" : false,
-  "locked" : false,
-  "supported_source_types" : [ "media_bridge", "oembed" ],
-  "supported_oembed_types" : [ "photo", "video", "link", "rich" ],
-  "supported_media_bridge_providers" : [ ],
-  "type" : "embed",
-  "default" : {
-    "source_type" : "media_bridge"
+    "content_id" : null,
+    "href" : "",
+    "type" : "EXTERNAL"
   }
 } ]
