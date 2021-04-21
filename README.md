@@ -3,7 +3,10 @@
 Reference for Media Bridge custom modules
 
 ## Live Examples (WIP)
-Visit https://www.mediabridge.io/examples/video and fill out the form in the lower right (please ensure adblockers are disabled). This should ensure a `?hs_utk` query param is passed to embed iframes. In the console, there should be detailed logs prefixed with `[media-bridge-embed]` from the [`media-bridge-embed-js`](./docs/media-bridge-embed-js.md) helper script.
+- Visit https://www.mediabridge.io/examples/video and consent to cookies in the top banner. This should ensure a `?hs_utk` query param is passed to embed iframes. There should be detailed logs prefixed with `[media-bridge-embed]` from the [`media-bridge-embed-js`](./docs/media-bridge-embed-js.md) helper script which handles this.
+- Play a video 
+- Fill out the form in the lower right (please ensure adblockers are disabled).
+- Coming soon: This should create a play event on their contact record
 
 ## Installation
 0. Make sure that you're set up for [local development](https://designers.hubspot.com/tutorials/getting-started) with the [HubSpot CMS CLI](https://designers.hubspot.com/docs/developer-reference/local-development-cms-cli).
