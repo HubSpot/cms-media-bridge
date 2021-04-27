@@ -1,7 +1,7 @@
 {% from '/media-bridge/mb-hubl-macros.html' import mb_email_embed %}
 
 {{ mb_email_embed(module.embed_field, {
-  posterUrl: module.custom_poster.src,
-  playButtonColor: module.play_button_color.color,
-  linkUrl: module.custom_link_url.href
+  link_url: module.custom_link_url.href,
+  poster_url: module.custom_poster.src,
+  play_button_color: module.play_button_color.color,
 }) }}
