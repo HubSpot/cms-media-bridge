@@ -7,32 +7,33 @@
 Renders a wrapper for a player based on embed field oEmbed value, meant for use in tandem with `media-bridge-embed-js`
 The oembed html is not eagerly rendered by default, instead we show a placeholder image which `media-bridge-embed-js` will transform into an iframe
 
-Options:
-- playButtonColor - overrides play button SVG overlay to specific color
-- posterUrl - customize placeholder image (defaults to oembed thumbnail)
-- revealOn - load (default), hover, click
+Options (2nd object param):
 - eager - if true, render oembed html directly. recommended only if not using simple iframe players
+- reveal_on - load (default), hover, click
+- unstyled - if true, avoid inline styles (which may break Embed field Sizing options, or impact play button or poster image alignment)
+- poster_url - customize placeholder image (defaults to oembed thumbnail)
+- play_button_color - overrides play button SVG overlay to specific color
 -->
 {% macro mb_embed(embedField, options) %}
   {% if embedField.source_type == "oembed" || embedField.source_type == "media_bridge" %}
     {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
     {% set oEmbedResp = oEmbedData.oembed_response %}
     {% if oEmbedData.oembed_url is defined and oEmbedResp is defined %}
-      {% set posterUrl = options.posterUrl || oEmbedResp.thumbnail_url %}
+      {% set poster_url = options.poster_url || oEmbedResp.thumbnail_url %}
       <div class="hs-mb-embed-wrapper"
            data-oembed-url="{{ oEmbedData.oembed_url }}"
            data-size-type="{{ oEmbedData.size_type }}"
-           data-reveal-on="{{ options.revealOn }}"
-           style="display: flex; align-items: center; justify-content: center; position: relative; background: black; min-height: 100px; {% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
+           data-reveal-on="{{ options.reveal_on }}"
+           style="{% unless options.unstyled %}display: flex; align-items: center; justify-content: center; position: relative; background: black; min-height: 100px;{% endunless %}{% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
 
           {% if options.eager %}
             {{ oEmbedResp.html|safe }}
           {% else %}
-            <img class="hs-mb-embed-placeholder" src="{{ posterUrl }}" style="display: block; margin: 0 auto; max-width: 100%; {% if oEmbedData.size_type == 'exact' %} max-height: 100%; {% endif %}" />
-            {{ play_button(options.playButtonColor) }}
+            <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%; {% if oEmbedData.size_type == 'exact' %} max-height: 100%; {% endif %}" />
+            {{ play_button(options.play_button_color) }}
           {% endif %}
 
-          {% unless options.jsonGlobals == false %}
+          {% unless options.json_globals == false %}
             {# conveys oembeds on page to media-bridge-embed-js #}
             <script type="text/javascript">
               window._hsMediaBridge = window._hsMediaBridge || { embedsByUrl: {} };
@@ -52,10 +53,10 @@ Options:
 Renders an email appropriate player based on embed field oEmbed value, without JS/CSS dependencies
 It will show a poster image based on the oembed thumbnail, linked to the oembed_url.
 
-Options:
-- playButtonColor - overrides play button SVG overlay to specific color
-- posterUrl - customize placeholder image (defaults to oembed thumbnail)
-- linkUrl - customize where placeholder links (defaults to oembed url)
+Options (2nd object param):
+- play_button_color - overrides play button SVG overlay to specific color
+- poster_url - customize placeholder image (defaults to oembed thumbnail)
+- link_url - customize where placeholder links (defaults to oembed url)
 -->
 
 {% macro mb_email_embed(embedField, options) %}
@@ -63,14 +64,14 @@ Options:
     {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
     {% set oEmbedResp = oEmbedData.oembed_response %}
     {% if oEmbedData.oembed_url is defined and oEmbedResp is defined %}
-      {% set linkUrl = options.linkUrl || oEmbedData.oembed_url %}
-      {% set posterUrl = options.posterUrl || oEmbedResp.thumbnail_url %}
+      {% set link_url = options.link_url || oEmbedData.oembed_url %}
+      {% set poster_url = options.poster_url || oEmbedResp.thumbnail_url %}
       <div class="hs-mb-embed-wrapper"
            style="position: relative; background: black; {% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
-        <a href="{{ linkUrl }}" target="_blank">
-          <img class="hs-mb-embed-placeholder" src="{{ posterUrl }}"
+        <a href="{{ link_url }}" target="_blank">
+          <img class="hs-mb-embed-placeholder" src="{{ poster_url }}"
                style="display: block; max-width: 100%; max-height: 100%; margin: 0 auto"/>
-          {{ play_button(options.playButtonColor) }}
+          {{ play_button(options.play_button_color) }}
         </a>
       </div>
     {% else %}

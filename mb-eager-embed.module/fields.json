@@ -1,0 +1,19 @@
+[ {
+  "name" : "embed_field",
+  "label" : "Media",
+  "required" : true,
+  "locked" : false,
+  "supported_source_types" : [ "media_bridge", "oembed" ],
+  "supported_media_bridge_providers" : [ ],
+  "type" : "embed",
+  "default" : {
+    "source_type" : "media_bridge",
+    "media_bridge_object" : {
+      "id" : null,
+      "oembed_url" : "",
+      "provider_id" : null,
+      "oembed_response" : { },
+      "size_type" : "auto"
+    }
+  }
+} ]
