@@ -1,6 +1,9 @@
 {% from '/media-bridge/mb-hubl-macros.html' import mb_embed %}
 
-{{ mb_embed(module.embed_field, {
-  eager: true,
-  unstyled: true,
-}) }}}
+<!-- We recommended to render something before media is selected, so its possible to see and click in the content editors -->
+<div style="min-height: 100px; background: black; color: white">
+  {{ mb_embed(module.embed_field, {
+    eager: true,
+    unstyled: true,
+  }) }}}
+</div>
