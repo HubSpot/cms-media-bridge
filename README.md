@@ -21,6 +21,9 @@ Renders a oEmbed player, meant for Pages and Blog Posts.
 The oEmbed html is not eagerly rendered by default, instead we show a placeholder image which [`media-bridge-embed-js`](./docs/media-bridge-embed-js.md) will transform into an iframe. 
 The embed player can be revealed on load, hover, or click. The placeholder "poster image" and play button overlay color are also customizable.
 
+### MB Eager embed (mb-eager-embed.module)
+Simply outputs the oEmbed response `html` in a wrapper div, with no additional JS or styles. This may be suitable when a third party script is managing rendering and handling MB events instead.
+
 ### MB Email Embed (mb-email-embed.module)
 Renders a poster image with a play button, suitable for emails. By default the image links to the oEmbed URL, but the link destination can be customized.
 
