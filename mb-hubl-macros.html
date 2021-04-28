@@ -4,14 +4,14 @@
 -->
 {% set oembed_type_error = "Only oEmbeds with `html` or `url` (for type `photo`) are supported." %}
 {% set no_selected_media_error = "The embed_field parameter must have a Media Bridge object selected to display." %}
-{% set default_wrapper_style = "display: inline-block; position: relative;" %}
+{% set default_wrapper_style = "position: relative; " %}
 <!--
 Renders a wrapper for a player based on embed field oEmbed value, meant for use in tandem with `media-bridge-embed-js`
 The oembed html is not eagerly rendered by default, instead we show a placeholder image which `media-bridge-embed-js` will transform into an iframe
 
 Options (2nd object param):
 - eager - if true, render oembed html directly. recommended only if not using simple iframe players
-- reveal_on - load (default), hover, click
+- reveal_on - load (default), hover, click. only works when `eager` is not true
 - unstyled - if true, avoid inline styles (which may break Embed field Sizing options, or impact play button or poster image alignment)
 - poster_url - customize placeholder image (defaults to oembed thumbnail)
 - play_button_color - shows SVG play button overlay of specific color
@@ -69,7 +69,7 @@ Options (2nd object param):
     <img src="{{ oembed_response.url }}" />
   {% else if oembed_response.html %}
     <div class="hs-mb-embed-wrapper"
-         style="display: inline-block; position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
+         style="position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
       <a href="{{ link_url }}" target="_blank">
         <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="max-width: 100%; max-height: 100%; margin: 0 auto"/>
         {% if options.play_button_color %}
