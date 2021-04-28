@@ -1,6 +1,10 @@
-{% from '/media-bridge/mb-hubl-macros.html' import mb_embed %}
+{% from '/media-bridge/mb-hubl-macros.html' import mb_embed, no_selected_media_error %}
 
-{{ mb_embed(module.embed_field, {
-  eager: true,
-  unstyled: true,
-}) }}
+{% if module.embed_field.media_bridge_object.oembed_url %}
+  {{ mb_embed(module.embed_field, {
+    eager: true,
+    unstyled: true,
+  }) }}
+{% else %}
+  <div>{{ no_selected_media_error }}</div>
+{% endif %}

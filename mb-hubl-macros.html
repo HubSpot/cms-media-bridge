@@ -2,9 +2,9 @@
     templateType: page
     isAvailableForNewContent: false
 -->
-{% set oEmbedTypeError = "Only oEmbed types photo, audio, and video are supported." %}
-{% set noSelectedMediaError = "The embed_field parameter must have a Media Bridge object selected." %}
-{% set defaultPageWrapperStyle = "display: flex; align-items: center; justify-content: center; position: relative;" %}
+{% set oembed_type_error = "Only oEmbeds with `html` or `url` (for type `photo`) are supported." %}
+{% set no_selected_media_error = "The embed_field parameter must have a Media Bridge object selected to display." %}
+{% set default_wrapper_style = "display: inline-block; position: relative;" %}
 <!--
 Renders a wrapper for a player based on embed field oEmbed value, meant for use in tandem with `media-bridge-embed-js`
 The oembed html is not eagerly rendered by default, instead we show a placeholder image which `media-bridge-embed-js` will transform into an iframe
@@ -14,47 +14,39 @@ Options (2nd object param):
 - reveal_on - load (default), hover, click
 - unstyled - if true, avoid inline styles (which may break Embed field Sizing options, or impact play button or poster image alignment)
 - poster_url - customize placeholder image (defaults to oembed thumbnail)
-- play_button_color - overrides play button SVG overlay to specific color
+- play_button_color - shows SVG play button overlay of specific color
 -->
-{% macro mb_embed(embedField, options) %}
-  {% if embedField.source_type == "oembed" || embedField.source_type == "media_bridge" %}
-    {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
-    {% set oEmbedResp = oEmbedData.oembed_response %}
-    {% if oEmbedData.oembed_url && oEmbedResp %}
-      {% if oEmbedResp.type == "photo" && oEmbedResp.url is defined %}
-        <img src="{{ oEmbedResp.url }}" />
-      {% else if oEmbedResp.type == "video" || oEmbedResp.type == "audio" %}
-        {% set poster_url = options.poster_url || oEmbedResp.thumbnail_url %}
-        {{ require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js', { position: 'footer', async: true, defer: true }) }}
-        <div class="hs-mb-embed-wrapper"
-             data-oembed-url="{{ oEmbedData.oembed_url }}"
-             data-size-type="{{ oEmbedData.size_type }}"
-             data-reveal-on="{{ options.reveal_on }}"
-             style="{% unless options.unstyled %}{{ defaultPageWrapperStyle }}{% endunless %}{% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
+{% macro mb_embed(embed_field, options) %}
+  {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
+  {% set oembed_response = field_value.oembed_response %}
+  {% if oembed_response.type == "photo" && oembed_response.url %}
+    <img src="{{ oembed_response.url }}" />
+  {% else if oembed_response.html %}
+    {% set poster_url = options.poster_url || oembed_response.thumbnail_url %}
+    {{ require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js', { position: 'footer', async: true, defer: true }) }}
+    <div class="hs-mb-embed-wrapper"
+       data-oembed-url="{{ field_value.oembed_url }}"
+       data-size-type="{{ field_value.size_type }}"
+       data-reveal-on="{{ options.reveal_on }}"
+       style="{% unless options.unstyled %}{{ default_wrapper_style }}{% endunless %}{% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
 
-            {% if options.eager %}
-              {{ oEmbedResp.html|safe }}
-            {% else %}
-              <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%; {% if oEmbedData.size_type == 'exact' %} max-height: 100%; {% endif %}" />
-              {{ play_button(options.play_button_color) }}
-            {% endif %}
-
-            {% unless options.json_globals == false %}
-              {# conveys oembeds on page to media-bridge-embed-js #}
-              <script type="text/javascript">
-                window._hsMediaBridge = window._hsMediaBridge || { embedsByUrl: {} };
-                window._hsMediaBridge.embedsByUrl["{{ oEmbedData.oembed_url }}"] = JSON.parse("{{ oEmbedResp|tojson|escapejson }}");
-              </script>
-            {% endunless %}
-        </div>
+      {% if options.eager %}
+        {{ oembed_response.html|safe }}
       {% else %}
-        <p>{{ oEmbedTypeError }}</p>
+        <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%; {% if field_value.size_type == 'exact' %} max-height: 100%; {% endif %}" />
+        {% if options.play_button_color %}
+          {{ mb_play_button(options.play_button_color) }}
+        {% endif %}
       {% endif %}
-    {% else %}
-      <p>{{ noSelectedMediaError }}</p>
-    {% endif %}
+
+      {# conveys oembeds on page to media-bridge-embed-js #}
+      <script type="text/javascript">
+        window._hsMediaBridge = window._hsMediaBridge || { embedsByUrl: {} };
+        window._hsMediaBridge.embedsByUrl["{{ field_value.oembed_url }}"] = JSON.parse("{{ oembed_response|tojson|escapejson }}");
+      </script>
+    </div>
   {% else %}
-    <p>{{ noSelectedMediaError }}</p>
+    <p>{{ oembed_type_error }}</p>
   {% endif %}
 {% endmacro %}
 
@@ -63,41 +55,34 @@ Renders an email appropriate player based on embed field oEmbed value, without J
 It will show a poster image based on the oembed thumbnail, linked to the oembed_url.
 
 Options (2nd object param):
-- play_button_color - overrides play button SVG overlay to specific color
 - poster_url - customize placeholder image (defaults to oembed thumbnail)
 - link_url - customize where placeholder links (defaults to oembed url)
+- play_button_color - shows SVG play button overlay of specific color
 -->
 
-{% macro mb_email_embed(embedField, options) %}
-  {% if embedField.source_type == "oembed" || embedField.source_type == "media_bridge" %}
-    {% set oEmbedData = embedField.source_type == "media_bridge" ? embedField.media_bridge_object : embedField %}
-    {% set oEmbedResp = oEmbedData.oembed_response %}
-    {% if oEmbedData.oembed_url && oEmbedResp %}
-      {% set link_url = options.link_url || oEmbedData.oembed_url %}
-      {% set poster_url = options.poster_url || oEmbedResp.thumbnail_url || oEmbedResp.url %}
-      {% if oEmbedResp.type == "photo" && oEmbedResp.url is defined %}
-        <img src="{{ oEmbedResp.url }}" />
-      {% else if oEmbedResp.type == "video" || oEmbedResp.type == "audio" %}
-        <div class="hs-mb-embed-wrapper"
-             style="position: relative;{% if oEmbedData.size_type == 'exact' %}width: {{ oEmbedData.width }}px; height: {{ oEmbedData.height }}px;{% endif %}">
-          <a href="{{ link_url }}" target="_blank">
-            <img class="hs-mb-embed-placeholder" src="{{ poster_url }}"
-                 style="display: block; max-width: 100%; max-height: 100%; margin: 0 auto"/>
-            {{ play_button(options.play_button_color) }}
-          </a>
-        </div>
-      {% else %}
-        <p>{{ oEmbedTypeError }}</p>
-      {% endif %}
-    {% else %}
-      <p>{{ noSelectedMediaError }}</p>
-    {% endif %}
+{% macro mb_email_embed(embed_field, options) %}
+  {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
+  {% set oembed_response = field_value.oembed_response %}
+  {% set link_url = options.link_url || field_value.oembed_url %}
+  {% set poster_url = options.poster_url || oembed_response.thumbnail_url || oembed_response.url %}
+  {% if oembed_response.type == "photo" && oembed_response.url %}
+    <img src="{{ oembed_response.url }}" />
+  {% else if oembed_response.html %}
+    <div class="hs-mb-embed-wrapper"
+         style="display: inline-block; position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
+      <a href="{{ link_url }}" target="_blank">
+        <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="max-width: 100%; max-height: 100%; margin: 0 auto"/>
+        {% if options.play_button_color %}
+          {{ mb_play_button(options.play_button_color) }}
+        {% endif %}
+      </a>
+    </div>
   {% else %}
-    <p>{{ noSelectedMediaError }}</p>
+    <p>{{ oembed_type_error }}</p>
   {% endif %}
 {% endmacro %}
 
-{% macro play_button(color) %}
+{% macro mb_play_button(color) %}
   {% set color = color || 'white' %}
   <div class="play-button hs-mb-embed-placeholder"
        style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; align-items: center; cursor: pointer; display: flex; justify-content: center">
