@@ -5,16 +5,7 @@
 {% set oembed_type_error = "Only oEmbeds with `html` or `url` (for type `photo`) are supported." %}
 {% set no_selected_media_error = "The embed_field parameter must have a Media Bridge object selected to display." %}
 {% set default_wrapper_style = "position: relative; " %}
-<!--
-Renders a wrapper for a player based on embed field oEmbed value, meant for use in tandem with `media-bridge-embed-js`
-The oembed html is not eagerly rendered by default, instead we show a placeholder image which `media-bridge-embed-js` will transform into an iframe
 
-Options (2nd object param):
-- eager - if true, render oembed html directly. recommended only if not using simple iframe players
-- reveal_on - load (default), hover, click. only works when `eager` is not true
-- poster_url - customize placeholder image (defaults to oembed thumbnail)
-- play_button_color - shows SVG play button overlay of specific color
--->
 {% macro mb_embed(embed_field, options) %}
   {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
   {% set oembed_response = field_value.oembed_response %}
@@ -51,16 +42,6 @@ Options (2nd object param):
     <p>{{ oembed_type_error }}</p>
   {% endif %}
 {% endmacro %}
-
-<!--
-Renders an email appropriate player based on embed field oEmbed value, without JS/CSS dependencies
-It will show a poster image based on the oembed thumbnail, linked to the oembed_url.
-
-Options (2nd object param):
-- poster_url - customize placeholder image (defaults to oembed thumbnail)
-- link_url - customize where placeholder links (defaults to oembed url)
-- play_button_color - shows SVG play button overlay of specific color
--->
 
 {% macro mb_email_embed(embed_field, options) %}
   {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}

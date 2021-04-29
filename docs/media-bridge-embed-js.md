@@ -57,12 +57,3 @@ By default the lazy placeholders are replaced with players on load (or as soon a
 `data-reveal-on`
 - `hover` will require a mouseenter event on the wrapper before injecting the iframe
 - `click` will require a click before injecting the iframe. `autoplay=1` will be appended to the iframe URL in hopes the initial click will start the video
-
-### Iframe sizing
-If not relying on a poster image to size the wrapper, we recommend setting wrapper's width and height explicitly in the style attribute. In either case the iframe will be made to occupy the entire width/height of the wrapper as its revealed.
-Ideally the `width` and `height` specified in the Embed field's "exact" sizing options becomes the explicit width/height set in the style attribute.
-
-`data-size-type`
-- no value provided will inject the iframe as found in the oembed `html`
-- `exact` will ensure the player remains the explicit dimensions as the iframe is revealed
-- `auto_fill_width` attempts responsive sizing, with a 16:9 aspect ratio
