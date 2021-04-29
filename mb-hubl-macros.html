@@ -10,17 +10,16 @@
   {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
   {% set oembed_response = field_value.oembed_response %}
   {% if oembed_response.type == "photo" && oembed_response.url %}
-    <img src="{{ oembed_response.url }}" />
+    <img src="{{ oembed_response.url }}" style="{% if field_value.size_type == "auto_custom_max" %}max-width: {{ field_value.max_width }}px; {% endif %}" />
   {% else if oembed_response.html %}
     {% set poster_url = options.poster_url || oembed_response.thumbnail_url %}
-    {# require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js', { position: 'footer', async: true, defer: true }) #}
-    {{ require_js('https://local.hsappstatic.net/media-bridge-embed-js/static/bundles/project.js', { position: 'footer', async: true, defer: true }) }}
+    {{ require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js', { position: 'footer', async: true, defer: true }) }}
 
     <div class="hs-mb-embed-wrapper"
        data-oembed-url="{{ field_value.oembed_url }}"
        data-size-type="{{ field_value.size_type }}"
        data-reveal-on="{{ options.reveal_on }}"
-       style="position: relative; {% if field_value.size_type == "auto_custom_max" %} max-height: {{ field_value.max_height }}px; max-width: {{ field_value.max_width }}px; {% endif %} {% if field_value.size_type == "auto" %} height: {{ field_value.height }}px; width: {{ field_value.width }}px; {% endif %}">
+       style="position: relative; {% if field_value.size_type == "auto_custom_max" %} max-height: {{ field_value.max_height }}px; max-width: {{ field_value.max_width }}px; {% endif %} {% if field_value.size_type == "exact" %} height: {{ field_value.height }}px; width: {{ field_value.width }}px; {% endif %}">
       <div class="hs-mb-iframe-wrapper">
         {% if options.eager %}
           {{ oembed_response.html|safe }}
@@ -49,7 +48,7 @@
   {% set link_url = options.link_url || field_value.oembed_url %}
   {% set poster_url = options.poster_url || oembed_response.thumbnail_url || oembed_response.url %}
   {% if oembed_response.type == "photo" && oembed_response.url %}
-    <img src="{{ oembed_response.url }}" />
+  <img src="{{ oembed_response.url }}" />
   {% else if oembed_response.html %}
     <div class="hs-mb-embed-wrapper"
          style="position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
