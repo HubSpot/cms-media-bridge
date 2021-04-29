@@ -12,7 +12,6 @@ The oembed html is not eagerly rendered by default, instead we show a placeholde
 Options (2nd object param):
 - eager - if true, render oembed html directly. recommended only if not using simple iframe players
 - reveal_on - load (default), hover, click. only works when `eager` is not true
-- unstyled - if true, avoid inline styles (which may break Embed field Sizing options, or impact play button or poster image alignment)
 - poster_url - customize placeholder image (defaults to oembed thumbnail)
 - play_button_color - shows SVG play button overlay of specific color
 -->
@@ -23,21 +22,24 @@ Options (2nd object param):
     <img src="{{ oembed_response.url }}" />
   {% else if oembed_response.html %}
     {% set poster_url = options.poster_url || oembed_response.thumbnail_url %}
-    {{ require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js', { position: 'footer', async: true, defer: true }) }}
+    {# require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js', { position: 'footer', async: true, defer: true }) #}
+    {{ require_js('https://local.hsappstatic.net/media-bridge-embed-js/static/bundles/project.js', { position: 'footer', async: true, defer: true }) }}
+
     <div class="hs-mb-embed-wrapper"
        data-oembed-url="{{ field_value.oembed_url }}"
        data-size-type="{{ field_value.size_type }}"
        data-reveal-on="{{ options.reveal_on }}"
-       style="{% unless options.unstyled %}{{ default_wrapper_style }}{% endunless %}{% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
-
-      {% if options.eager %}
-        {{ oembed_response.html|safe }}
-      {% else %}
-        <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%; {% if field_value.size_type == 'exact' %} max-height: 100%; {% endif %}" />
-        {% if options.play_button_color %}
-          {{ mb_play_button(options.play_button_color) }}
+       style="position: relative; {% if field_value.size_type == "auto_custom_max" %} max-height: {{ field_value.max_height }}px; max-width: {{ field_value.max_width }}px; {% endif %} {% if field_value.size_type == "auto" %} height: {{ field_value.height }}px; width: {{ field_value.width }}px; {% endif %}">
+      <div class="hs-mb-iframe-wrapper">
+        {% if options.eager %}
+          {{ oembed_response.html|safe }}
+        {% else %}
+          <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%;" />
+          {% if options.play_button_color %}
+            {{ mb_play_button(options.play_button_color) }}
+          {% endif %}
         {% endif %}
-      {% endif %}
+      </div>
 
       {# conveys oembeds on page to media-bridge-embed-js #}
       <script type="text/javascript">
