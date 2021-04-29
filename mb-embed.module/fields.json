@@ -68,7 +68,7 @@
   "locked" : false,
   "type" : "color",
   "default" : {
-    "color" : "#FFFFFF",
+    "color" : "",
     "opacity" : 100
   }
 } ]
