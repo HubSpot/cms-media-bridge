@@ -3,7 +3,6 @@
 {% if module.embed_field.media_bridge_object.oembed_url %}
   {{ mb_embed(module.embed_field, {
     eager: true,
-    unstyled: true,
   }) }}
 {% else %}
   <div>{{ no_selected_media_error }}</div>

@@ -1,11 +1,9 @@
 [ {
-  "id" : "51a4f6d1-134f-b11c-6f44-3bbc9a9f11a5",
   "name" : "embed_field",
   "label" : "Media",
   "required" : false,
   "locked" : false,
-  "supported_source_types" : [ "media_bridge", "oembed" ],
-  "supported_oembed_types" : [ "photo", "video", "link", "rich" ],
+  "supported_source_types" : [ "media_bridge" ],
   "supported_media_bridge_providers" : [ ],
   "type" : "embed",
   "default" : {
@@ -19,7 +17,6 @@
     }
   }
 }, {
-  "id" : "600c27c5-3e13-92ad-2394-c23b33afb5b5",
   "name" : "reveal_on",
   "label" : "Reveal On",
   "required" : false,
@@ -29,7 +26,7 @@
   "type" : "choice",
   "default" : "load"
 }, {
-  "id" : "ad37dfb4-0af2-ac23-68a8-57e70a2e3fc2",
+  "id" : "custom_poster_enabled",
   "name" : "custom_poster_enabled",
   "label" : "Custom Poster Enabled",
   "required" : false,
@@ -38,13 +35,12 @@
   "type" : "boolean",
   "default" : false
 }, {
-  "id" : "af16c17b-1d77-1389-8185-50f5a1a20438",
   "name" : "custom_poster",
   "label" : "Custom Poster",
   "required" : false,
   "locked" : false,
   "visibility" : {
-    "controlling_field" : "ad37dfb4-0af2-ac23-68a8-57e70a2e3fc2",
+    "controlling_field" : "custom_poster_enabled",
     "controlling_value_regex" : "true",
     "operator" : "EQUAL",
     "access" : null,
@@ -60,15 +56,4 @@
     "alt" : null,
     "loading" : "disabled"
   }
-}, {
-  "id" : "68f1077d-9740-3117-ce21-351af961baf7",
-  "name" : "play_button_color",
-  "label" : "Play button color",
-  "required" : false,
-  "locked" : false,
-  "type" : "color",
-  "default" : {
-    "color" : "",
-    "opacity" : 100
-  }
-} ]
+}]

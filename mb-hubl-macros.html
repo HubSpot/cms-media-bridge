@@ -3,8 +3,7 @@
     isAvailableForNewContent: false
 -->
 {% set oembed_type_error = "Only oEmbeds with `html` or `url` (for type `photo`) are supported." %}
-{% set no_selected_media_error = "The embed_field parameter must have a Media Bridge object selected to display." %}
-{% set default_wrapper_style = "position: relative; " %}
+{% set no_selected_media_error = "The `embed_field` parameter must have a Media Bridge object selected to display." %}
 
 {% macro mb_embed(embed_field, options) %}
   {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
@@ -25,9 +24,6 @@
           {{ oembed_response.html|safe }}
         {% else %}
           <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%;" />
-          {% if options.play_button_color %}
-            {{ mb_play_button(options.play_button_color) }}
-          {% endif %}
         {% endif %}
       </div>
 
@@ -48,7 +44,7 @@
   {% set link_url = options.link_url || field_value.oembed_url %}
   {% set poster_url = options.poster_url || oembed_response.thumbnail_url || oembed_response.url %}
   {% if oembed_response.type == "photo" && oembed_response.url %}
-  <img src="{{ oembed_response.url }}" />
+    <img src="{{ oembed_response.url }}" />
   {% else if oembed_response.html %}
     <div class="hs-mb-embed-wrapper"
          style="position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">

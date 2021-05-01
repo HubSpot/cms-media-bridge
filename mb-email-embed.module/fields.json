@@ -1,18 +1,16 @@
 [ {
-  "id" : "5e7a3367-4f64-42b9-b967-c2317bdfee1d",
   "name" : "embed_field",
   "label" : "Media",
   "required" : false,
   "locked" : false,
-  "supported_source_types" : [ "media_bridge", "oembed" ],
-  "supported_oembed_types" : [ "photo", "video", "link", "rich" ],
+  "supported_source_types" : [ "media_bridge" ],
   "supported_media_bridge_providers" : [ ],
   "type" : "embed",
   "default" : {
     "source_type" : "media_bridge"
   }
 }, {
-  "id" : "90065862-2cad-2282-f68d-3192c0837717",
+  "id": "custom_poster_enabled",
   "name" : "custom_poster_enabled",
   "label" : "Custom Poster Enabled",
   "required" : false,
@@ -21,13 +19,12 @@
   "type" : "boolean",
   "default" : false
 }, {
-  "id" : "cd9819aa-6d62-9b56-6444-dba97d78154d",
   "name" : "custom_poster",
   "label" : "Custom Poster",
   "required" : false,
   "locked" : false,
   "visibility" : {
-    "controlling_field" : "90065862-2cad-2282-f68d-3192c0837717",
+    "controlling_field" : "custom_poster_enabled",
     "controlling_value_regex" : "true",
     "operator" : "EQUAL",
     "access" : null,
@@ -43,7 +40,6 @@
     "loading" : "lazy"
   }
 }, {
-  "id" : "e750fff3-4bf4-5a9a-7c35-6261b8459a2c",
   "name" : "play_button_color",
   "label" : "Play button color",
   "required" : false,
@@ -54,7 +50,7 @@
     "opacity" : 100
   }
 }, {
-  "id" : "911cd63c-677c-aac2-a1b7-3786311e461a",
+  "id" : "custom_link_enabled",
   "name" : "custom_link_enabled",
   "label" : "Custom Link Enabled",
   "required" : false,
@@ -63,19 +59,18 @@
   "type" : "boolean",
   "default" : false
 }, {
-  "id" : "982e68c7-ba4e-783c-d738-0f985682e8e5",
   "name" : "custom_link_url",
   "label" : "Custom Link URL",
   "required" : false,
   "locked" : false,
   "visibility" : {
-    "controlling_field" : "911cd63c-677c-aac2-a1b7-3786311e461a",
+    "controlling_field" : "custom_link_enabled",
     "controlling_value_regex" : "true",
     "operator" : "EQUAL",
     "access" : null,
     "hidden_subfields" : null
   },
-  "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG" ],
+  "supported_types" : [ "EXTERNAL", "CONTENT", "BLOG" ],
   "type" : "url",
   "default" : {
     "content_id" : null,
