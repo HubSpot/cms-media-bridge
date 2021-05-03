@@ -2,20 +2,20 @@
 {% if embed_field_value %}
   {% set object_type_suffix = '_Videos' %}
   {% if embed_field_value.media_type == 'IMAGE' %}
-    {% set object_type_suffix = '_Images' $}
+    {% set object_type_suffix = '_Images' %}
   {% else if embed_field_value.media_type == 'AUDIO' %}
-    {% set object_type = '_Audio' %}
+    {% set object_type_suffix = '_Audio' %}
   {% endif %}
 
   {% set object_type = 'a' + embed_field_value.provider_id + object_type_suffix %}
-  {% set obj = crm_object(object_type, embed_field_value.id, "hs_title,hs_oembed_url,hs_file_url,hs_thumbnail_url,hs_poster_url,hs_details_page_link") %}
-  {% if obj %}
+  {% set crm_object = crm_object(object_type, embed_field_value.id, "hs_title,hs_oembed_url,hs_file_url,hs_thumbnail_url,hs_poster_url,hs_details_page_link") %}
+  {% if crm_object %}
     <div>
       <h3>{{ obj.hs_title }}</h3>
-      {% if obj.hs_thumbnail_url %}
-        <img src="{{ obj.hs_thumbnail_url }}" />
+      {% if crm_object.hs_thumbnail_url %}
+        <img src="{{ crm_object.hs_thumbnail_url }}" />
       {% endif %}
-      <pre>CRM object: {{ obj|pprint }}</pre>
+      <pre>CRM object: {{ crm_object|pprint }}</pre>
     </div>
   {% else %}
     <p>CRM object type: <code>{{ object_type }}</code>, id: <code>{{ embed_field_value.id}}</code> not found.</p>

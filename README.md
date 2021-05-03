@@ -20,6 +20,10 @@ We recommend this approach for adding MB to the default video module, or when th
 
 ![Embed field sizing options](./docs/embed-field-video-selected.png)
 
+## CRM object `crm_object.module`
+
+Uses the `crm_object` function to query for media selected in an Embed field, which allows using default and custom properties as an alternative to the oembed response.
+
 > :construction: **The modules below rely on experimental macros which currently have to be imported** An official HubL tag may be available instead soon.
 
 ### MB Embed - `mb-embed.module`
