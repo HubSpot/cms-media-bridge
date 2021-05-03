@@ -68,8 +68,9 @@ Options:
 
 ## Sizing options
 
-Media Bridge integrates with the Embed field, and aims supports its sizing options via macro. These are placed on the wrapper div in a `data-size-type` attribute.
-These rely on a bit of CSS in the page modules, but may need attention to support in modules
+Media Bridge integrates with the Embed field, and the `embed-field-with-mb.module` should support them with the same strategy as the inline JS.
+The other modules based on the macro strive to support them with inline styles and a bit of module CSS, but may need custom attention.
+These are placed on the wrapper div in a `data-size-type` attribute.
 
 ![Embed field sizing options](./docs/embed-field-sizing-options.png)
 
