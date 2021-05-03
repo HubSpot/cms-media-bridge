@@ -49,6 +49,13 @@
     "required": false,
     "locked": false,
     "type": "color",
+    "visibility": {
+      "controlling_field": "custom_poster_enabled",
+      "controlling_value_regex": "true",
+      "operator": "EQUAL",
+      "access": null,
+      "hidden_subfields": null
+    },
     "default": {
       "color": "",
       "opacity": 100

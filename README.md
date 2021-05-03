@@ -54,7 +54,10 @@ Options:
 
 #### `mb_email_embed` (experimental)
 Renders an email appropriate player based on the oEmbed thumbnail, essentially a linked image without JS/CSS dependencies.
-It will show a poster image based on the oembed thumbnail, linked to the oembed_url by default but possible to override.
+It will show a poster image based on the oembed thumbnail, linked to the oembed_url by default but possible to override with an image from Files.
+When a custom poster URL is selected, a play button of a specific color can be overlayed on it as well.
+
+*Note* Currently the module must link to a CMS page where the MB media is embedded in order to track play events.
 
 ```
 mb_email_embed(embed_field, options) %}
