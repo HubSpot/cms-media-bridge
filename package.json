@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "upload-macros": "hs upload mb-hubl-macros.html media-bridge/mb-hubl-macros.html",
+    "upload-embed-field": "hs upload embed-field-with-mb.module media-bridge/embed-field-with-mb.module",
     "upload": "hs upload mb-embed.module media-bridge/mb-embed.module && hs upload mb-email-embed.module media-bridge/mb-email-embed.module && hs upload mb-eager-embed.module media-bridge/mb-eager-embed.module",
     "fetch-macros": "hs fetch media-bridge/mb-hubl-macros.html mb-hubl-macros.html",
     "fetch": "hs fetch media-bridge/mb-embed.module && hs fetch media-bridge/mb-email-embed.module"

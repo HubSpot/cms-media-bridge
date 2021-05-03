@@ -23,7 +23,9 @@
         {% if options.eager %}
           {{ oembed_response.html|safe }}
         {% else %}
-          <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%;" />
+          <div class="hs-mb-embed-placeholder">
+            <img src="{{ poster_url }}" style="max-width: 100%; max-height: 100%" />
+          </div>
         {% endif %}
       </div>
 
@@ -49,7 +51,7 @@
     <div class="hs-mb-embed-wrapper"
          style="position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
       <a href="{{ link_url }}" target="_blank">
-        <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="max-width: 100%; max-height: 100%; margin: 0 auto"/>
+        <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="max-width: 100%; max-height: 100%;"/>
         {% if options.play_button_color %}
           {{ mb_play_button(options.play_button_color) }}
         {% endif %}

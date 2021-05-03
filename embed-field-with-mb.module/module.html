@@ -1,0 +1,122 @@
+{% if module.embed_field.source_type == "oembed" || module.embed_field.source_type == "media_bridge" %}
+  {{ require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js') }}
+  {% set oEmbedData = module.embed_field.source_type == "media_bridge" ? module.embed_field.media_bridge_object : module.embed_field %}
+  <div class="oembed_container {% if oEmbedData.size_type == 'auto_full_width' %} oembed_container--full-size{% endif %}" id="oembed_container-{{name}}">
+    <div class="iframe_wrapper"
+      data-embed-url="{{ oEmbedData.oembed_url }}"
+      data-source-type="{{ module.embed_field.source_type }}"
+      {% unless oEmbedData.size_type == "auto_full_width" || oEmbedData.size_type == "exact" %}
+      data-max-height="{% if oEmbedData.size_type == "auto_custom_max" %}{{ oEmbedData.max_height }}{% endif %}"
+      data-max-width="{% if oEmbedData.size_type == "auto_custom_max" %}{{ oEmbedData.max_width }}{% endif %}"
+      {% endunless %}
+      {% if oEmbedData.size_type == "exact" %}
+      data-height="{{ oEmbedData.height }}"
+      data-width="{{ oEmbedData.width }}"
+      {% endif %}
+      >
+    </div>
+  </div>
+  {% require_css %}
+  <style>
+    .oembed_container {
+      display: inline-block;
+      height: 100%;
+      position: relative;
+      width: 100%;
+    }
+
+    .oembed_container .iframe_wrapper > * {
+      height: 100%;
+      left: 0;
+      margin: 0 auto;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+    }
+
+    .iframe_wrapper {
+      height: 0;
+      padding-bottom: 56.25%;
+      padding-top: 25px;
+      position: relative;
+    }
+  </style>
+  {% end_require_css %}
+  {% require_js %}
+  <script>
+    function loadEmbedField(oembedContainer) {
+      const iframeWrapper = oembedContainer.querySelector('.iframe_wrapper');
+      if (!iframeWrapper) {
+        return;
+      }
+      const url = iframeWrapper.dataset.embedUrl;
+      if (!url) {
+        return;
+      }
+      console.log(oembedContainer);
+      if (iframeWrapper.dataset.sourceType === 'media_bridge') {
+        // let media-bridge-embed-js render instead if present on page
+        if (window.hsMediaBridgeApi) {
+          return;
+        } else {
+          console.warn('Install `media-bridge-embed-js` for ideal embed rendering.');
+        }
+      }
+
+      const request = new XMLHttpRequest();
+      const requestUrl = "/_hcms/oembed?url=" + url + "&autoplay=0";
+      request.open('GET', requestUrl, true);
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          const data = JSON.parse(request.responseText);
+
+          const maxHeight = iframeWrapper.dataset.maxHeight !== undefined && !iframeWrapper.dataset.maxHeight ? data.height : iframeWrapper.dataset.maxHeight;
+          const maxWidth = iframeWrapper.dataset.maxWidth !== undefined && !iframeWrapper.dataset.maxWidth ? data.width : iframeWrapper.dataset.maxWidth;
+          const height = iframeWrapper.dataset.height !== undefined && !iframeWrapper.dataset.height ? data.height : iframeWrapper.dataset.height;
+          const width = iframeWrapper.dataset.width !== undefined && !iframeWrapper.dataset.width ? data.width : iframeWrapper.dataset.width;
+          const el = document.createElement('div');
+          el.innerHTML = data.html;
+          const iframe = el.firstChild;
+          iframeWrapper.appendChild(iframe);
+
+          if (maxHeight) {
+            const maxHeightStr = maxHeight.toString(10) + "px";
+            oembedContainer.style.maxHeight = maxHeightStr;
+            iframe.style.maxHeight = maxHeightStr;
+          }
+
+          if (maxWidth) {
+            const maxWidthStr = maxWidth.toString(10) + "px";
+            oembedContainer.style.maxWidth = maxWidthStr;
+            iframe.style.maxWidth = maxWidthStr;
+          }
+
+          if (height) {
+            const heightStr = height.toString(10) + "px";
+            oembedContainer.style.height = heightStr;
+            iframe.style.height = heightStr;
+          }
+
+          if (width) {
+            const widthStr = width.toString(10) + "px";
+            oembedContainer.style.width = widthStr;
+            iframe.style.width = widthStr;
+          }
+        } else {
+          console.error('Server reached, error retrieving results.');
+        }
+      };
+      request.onerror = function() {
+        console.error('Could not reach the server.');
+      };
+      request.send();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var oEmbedContainers = document.getElementsByClassName('.oembed_container');
+      Array.prototype.forEach.call(oEmbedContainers, loadEmbedField)
+    });
+  </script>
+  {% end_require_js %}
+{% endif %}
