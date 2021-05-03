@@ -45,32 +45,20 @@
   {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
   {% set oembed_response = field_value.oembed_response %}
   {% set link_url = options.link_url || field_value.oembed_url %}
-  {% set poster_url = options.poster_url || oembed_response.thumbnail_url || oembed_response.url %}
+  {% set img_alt = oembed_response.title %}
+  {% set max_container_width = current_column_content_width is number ? current_column_content_width : email_body_width|default(600) %}
+
   {% if oembed_response.type == "photo" && oembed_response.url %}
-    <img src="{{ oembed_response.url }}" />
+    <img alt="{{ img_alt }}" src="{{ oembed_response.url }}" />
   {% else if oembed_response.html %}
+    {% set img_url = options.poster_url && options.play_button_color ? video_thumbnail({ url: options.poster_url, color: options.play_button_color, width: max_container_width }) : options.poster_url || oembed_response.thumbnail_url %}
     <div class="hs-mb-embed-wrapper"
          style="position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
       <a href="{{ link_url }}" target="_blank">
-        <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="max-width: 100%; max-height: 100%;"/>
-        {% if options.play_button_color %}
-          {{ mb_play_button(options.play_button_color) }}
-        {% endif %}
+        <img alt="{{ img_alt }}" class="hs-mb-embed-placeholder" src="{{ img_url }}" style="max-width: 100%; max-height: 100%;"/>
       </a>
     </div>
   {% else %}
     <p>{{ oembed_type_error }}</p>
   {% endif %}
-{% endmacro %}
-
-{% macro mb_play_button(color) %}
-  {% set color = color || 'white' %}
-  <div class="play-button hs-mb-embed-placeholder"
-       style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; align-items: center; cursor: pointer; display: flex; justify-content: center">
-    <svg viewBox="0 0 80 80"
-         style="display: block; height: auto; width: 20%; max-width: 120px; max-height: 120px; filter: drop-shadow(0 0 1rem #666)">
-      <circle cx="41" cy="41" r="37" stroke="{{ color }}" stroke-width="5" fill="none"></circle>
-      <polygon fill="{{ color }}" stroke="{{ color }}" stroke-width="5" points="32,25 32,58 60,42"></polygon>
-    </svg>
-  </div>
 {% endmacro %}
