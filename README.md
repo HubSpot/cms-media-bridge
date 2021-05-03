@@ -1,9 +1,8 @@
 # cms-media-bridge
 
-Examples for supporting Media Bridge in HubSpot CMS custom modules.
+Examples and docs for integrating Media Bridge with the HubSpot CMS
 
 ⚠️ **This is a BETA release that uses some HubSpot features that are not available to all customer accounts. Please refer to the HubSpot [Developer Beta Terms](https://legal.hubspot.com/developerbetaterms)** ⚠️
-
 
 ## Live Examples (WIP)
 Visit https://www.mediabridge.io/examples/video and consent to cookies in the top banner.
@@ -21,7 +20,7 @@ We recommend this approach for adding MB to the default video module, or when th
 
 ![Embed field sizing options](./docs/embed-field-video-selected.png)
 
-> :construction: **The modules below rely on experimental macros which currently has to be imported** An official HubL tag may be available instead soon.
+> :construction: **The modules below rely on experimental macros which currently have to be imported** An official HubL tag may be available instead soon.
 
 ### MB Embed - `mb-embed.module`
 Renders a oEmbed player, designed for iframe-based players in Pages and Blog Posts.
@@ -68,17 +67,16 @@ Options:
 
 ## Sizing options
 
-Media Bridge integrates with the Embed field, and the `embed-field-with-mb.module` should support them with the same strategy as the inline JS.
-The other modules based on the macro strive to support them with inline styles and a bit of module CSS, but may need custom attention.
-These are placed on the wrapper div in a `data-size-type` attribute.
+Media Bridge integrates with the Embed field, and the `embed-field-with-mb.module` should support these options in the same way as the snippet's inline JS does.
+The other modules based on the macro strive to support them with just inline styles and a bit of module CSS, but may need custom attention.
 
 ![Embed field sizing options](./docs/embed-field-sizing-options.png)
 
-- Exact size (`size_type: exact`) - Based on the exact width and height the user providers
-- Original size (`size_type: auto`) - Based on the width and height dimensions in the oEmbed response, but attempts to be responsive
-- Full width (`size_type: auto_full_width`) - Sill the container responsively. 
-- Custom - (`size_type: auto_custom_max`) - Allows the user to specify a max width and max height, while preserving the aspect ratio. The macro will place inline styles on the wrapper tag.
-
+These options placed on the wrapper div in a `data-size-type` attribute.
+- Original size (`size_type: auto`) - Based on the dimensions in the oEmbed response, but attempts to stay responsive
+- Exact size (`size_type: exact`) - Based on the exact width and height the user providers, saved on the field as `width/height` 
+- Full width (`size_type: auto_full_width`) - Fill the container responsively
+- Custom - (`size_type: auto_custom_max`) - Allows the user to specify a max size while preserving the aspect ratio. Saved on the field as `max_width/max_height`
 
 ## Installation
 - Make sure you're set up for [local development](https://designers.hubspot.com/tutorials/getting-started) with the [HubSpot CMS CLI](https://designers.hubspot.com/docs/developer-reference/local-development-cms-cli).
