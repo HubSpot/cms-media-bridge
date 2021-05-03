@@ -18,6 +18,7 @@
 
     <div class="hs-mb-embed-wrapper"
        data-oembed-url="{{ field_value.oembed_url }}"
+       data-source-type="{{ field_value.source_type }}"
        data-size-type="{{ field_value.size_type }}"
        data-reveal-on="{{ options.reveal_on }}"
        style="position: relative; {% if field_value.size_type == 'auto_custom_max' || field_value.size_type == 'auto' %} max-width: {{ max_width }}px; max-height: {{ max_height }}px; {% endif %} {% if field_value.size_type == 'exact' %} height: {{ field_value.height }}px; width: {{ field_value.width }}px; {% endif %}">
