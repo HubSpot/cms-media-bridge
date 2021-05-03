@@ -1,6 +1,9 @@
 # cms-media-bridge
 
-Reference for Media Bridge custom modules
+Examples for supporting Media Bridge in HubSpot CMS custom modules.
+
+⚠️ **This is a BETA release that uses some HubSpot features that are not available to all customer accounts. Please refer to the HubSpot [Developer Beta Terms](https://legal.hubspot.com/developerbetaterms)** ⚠️
+
 
 ## Live Examples (WIP)
 Visit https://www.mediabridge.io/examples/video and consent to cookies in the top banner.
