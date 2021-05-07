@@ -1,0 +1,18 @@
+{
+  "name": "cms-media-bridge",
+  "version": "1.0.0",
+  "description": "Examples and reference modules for HubSpot Media Bridge embeds",
+  "main": "index.js",
+  "repository": "git@github.com:HubSpot/cms-media-bridge.git",
+  "author": "lbryant <lbryant@hubspot.com>",
+  "license": "Apache-2.0",
+  "scripts": {
+    "upload-macros": "hs upload src/mb-hubl-macros.html media-bridge/mb-hubl-macros.html",
+    "upload-embed-field": "hs upload src/embed-field-with-mb.module media-bridge/embed-field-with-mb.module",
+    "upload-crm-object": "hs upload src/crm-object.module media-bridge/crm-object.module",
+    "upload": "hs upload src/mb-embed.module media-bridge/mb-embed.module && hs upload src/mb-email-embed.module media-bridge/mb-email-embed.module && hs upload src/mb-eager-embed.module media-bridge/mb-eager-embed.module"
+  },
+  "devDependencies": {
+    "@hubspot/cms-cli": "^2.2.3"
+  }
+}

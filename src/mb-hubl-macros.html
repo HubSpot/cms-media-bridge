@@ -1,0 +1,64 @@
+<!--
+    templateType: page
+    isAvailableForNewContent: false
+-->
+{% set oembed_type_error = "Only oEmbeds with `html` or `url` (for type `photo`) are supported." %}
+{% set no_selected_media_error = "The `embed_field` parameter must have a Media Bridge object selected to display." %}
+
+{% macro mb_embed(embed_field, options) %}
+  {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
+  {% set oembed_response = field_value.oembed_response %}
+  {% if oembed_response.type == "photo" && oembed_response.url %}
+    <img src="{{ oembed_response.url }}" style="{% if field_value.size_type == "auto_custom_max" %}max-width: {{ field_value.max_width }}px; {% endif %}" />
+  {% else if oembed_response.html %}
+    {% set poster_url = options.poster_url || oembed_response.thumbnail_url %}
+    {{ require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js', { position: 'footer', async: true, defer: true }) }}
+    {% set max_width = field_value.size_type == 'auto_custom_max' ? field_value.max_width : oembed_response.width %}
+    {% set max_height = field_value.size_type == 'auto_custom_max' ? field_value.max_height : oembed_response.height %}
+
+    <div class="hs-mb-embed-wrapper"
+       data-oembed-url="{{ field_value.oembed_url }}"
+       data-source-type="{{ field_value.source_type }}"
+       data-size-type="{{ field_value.size_type }}"
+       data-reveal-on="{{ options.reveal_on }}"
+       style="position: relative; {% if field_value.size_type == 'auto_custom_max' || field_value.size_type == 'auto' %} max-width: {{ max_width }}px; max-height: {{ max_height }}px; {% endif %} {% if field_value.size_type == 'exact' %} height: {{ field_value.height }}px; width: {{ field_value.width }}px; {% endif %}">
+      <div class="hs-mb-iframe-wrapper">
+        {% if options.eager %}
+          {{ oembed_response.html|safe }}
+        {% else %}
+          <img class="hs-mb-embed-placeholder" src="{{ poster_url }}" style="display: block; margin: 0 auto; max-width: 100%;" />
+        {% endif %}
+      </div>
+
+      {# conveys oembeds on page to media-bridge-embed-js #}
+      <script type="text/javascript">
+        window._hsMediaBridge = window._hsMediaBridge || { embedsByUrl: {} };
+        window._hsMediaBridge.embedsByUrl["{{ field_value.oembed_url }}"] = JSON.parse("{{ oembed_response|tojson|escapejson }}");
+      </script>
+    </div>
+  {% else %}
+    <p>{{ oembed_type_error }}</p>
+  {% endif %}
+{% endmacro %}
+
+{% macro mb_email_embed(embed_field, options) %}
+  {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
+  {% set oembed_response = field_value.oembed_response %}
+  {% set link_url = options.link_url || field_value.oembed_url %}
+  {% set img_alt = oembed_response.title %}
+  {% set max_container_width = current_column_content_width is number ? current_column_content_width : email_body_width|default(600) %}
+
+  {% if oembed_response.type == "photo" && oembed_response.url %}
+    <img alt="{{ img_alt }}" src="{{ oembed_response.url }}" />
+  {% else if oembed_response.html %}
+    {% set img_url = options.poster_url && options.play_button_color ? video_thumbnail({ url: options.poster_url, color: options.play_button_color, width: max_container_width }) : options.poster_url || oembed_response.thumbnail_url %}
+    <div class="hs-mb-embed-wrapper"
+         style="position: relative; {% if field_value.size_type == 'exact' %}width: {{ field_value.width }}px; height: {{ field_value.height }}px;{% endif %}">
+      <a href="{{ link_url }}" target="_blank">
+        <img alt="{{ img_alt }}" class="hs-mb-embed-placeholder" src="{{ img_url }}" style="max-width: 100%; max-height: 100%;"/>
+      </a>
+    </div>
+  {% else %}
+    <p>{{ oembed_type_error }}</p>
+  {% endif %}
+{% endmacro %}

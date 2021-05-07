@@ -1,0 +1,8 @@
+[
+  {
+    "name": "embed_field",
+    "label": "Media",
+    "supported_source_types": ["media_bridge", "oembed"],
+    "type": "embed"
+  }
+]
