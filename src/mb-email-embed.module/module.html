@@ -1,11 +1,51 @@
-{% from '/media-bridge/mb-hubl-macros.html' import mb_email_embed, no_selected_media_error %}
+{% macro mb_email_embed(embed_field, options) %}
+  {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
+  {% set oembed_response = field_value.oembed_response %}
+  {% set link_url = options.link_url || field_value.oembed_url %}
+  {% set img_alt = oembed_response.title %}
+  {% set img_src = oembed_response.thumbnail_url %}
+  {% if oembed_response.type == "photo" && oembed_response.url %}
+    {% set img_src = oembed_response.url %}
+  {% endif %}
+  {% set max_body_width = current_column_content_width is number ? current_column_content_width : email_body_width|default(600) %}
+
+  {% set img_width = field_value.width %}
+  {% if current_column_content_width is number && current_column_content_width < img_width %}
+    {% set img_width = max_body_width %}
+  {% endif %}
+
+  {% if options.custom_poster.src %}
+    {% set img_src = options.custom_poster.src %}
+    {% if options.play_button_color %}
+      {% set img_src = video_thumbnail({ url: img_src, color: options.play_button_color, width: img_width }) %}
+    {% endif %}
+    {% if options.custom_poster.alt %}
+      {% set img_alt = options.custom_poster.alt %}
+    {% endif %}
+  {% endif %}
+
+  {% if img_src %}
+    <table class="hse-image-wrapper hs-mb-email-embed" role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <tbody>
+        <tr>
+          <td style="{{ wrapper_css }}">
+            <a href="{{ link_url }}" target="_blank">
+              <img alt="{{ img_alt }}" src="{{ img_src }}" width="{{ img_width }}" style="max-width: 100%;" />
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  {% endif %}
+{% endmacro %}
+
 
 {% if module.embed_field.media_bridge_object.oembed_url %}
   {{ mb_email_embed(module.embed_field, {
-    link_url: module.custom_link_url.href,
-    poster_url: module.custom_poster.src,
+    link_url: module.custom_link_enabled ? module.custom_link_url.href : none,
+    custom_poster: module.custom_poster_enabled ? module.custom_poster : none,
     play_button_color: module.play_button_color.color,
   }) }}
 {% else %}
-  <div>{{ no_selected_media_error }}</div>
+  <p>Select Media Bridge media to display.</p>
 {% endif %}
