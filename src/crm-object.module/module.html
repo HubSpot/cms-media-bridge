@@ -8,17 +8,17 @@
   {% endif %}
 
   {% set object_type = 'a' + embed_field_value.provider_id + object_type_suffix %}
-  {% set crm_object = crm_object(object_type, embed_field_value.id, "hs_title,hs_oembed_url,hs_file_url,hs_thumbnail_url,hs_poster_url,hs_details_page_link") %}
-  {% if crm_object %}
+  {% set media_object = crm_object(object_type, embed_field_value.id, "hs_title,hs_oembed_url,hs_file_url,hs_thumbnail_url,hs_poster_url,hs_details_page_link") %}
+  {% if media_object %}
     <div>
-      <h3>{{ obj.hs_title }}</h3>
+      <h3>{{ media_object.hs_title }}</h3>
       {% if crm_object.hs_thumbnail_url %}
         <img src="{{ crm_object.hs_thumbnail_url }}" />
       {% endif %}
-      <pre>CRM object: {{ crm_object|pprint }}</pre>
+      <pre>CRM object: {{ media_object|pprint }}</pre>
     </div>
   {% else %}
-    <p>CRM object type: <code>{{ object_type }}</code>, id: <code>{{ embed_field_value.id}}</code> not found.</p>
+    <p>CRM object type: <code>{{ object_type }}</code>, id: <code>{{ embed_field_value.id }}</code> not found.</p>
   {% endif %}
 {% else %}
   <p>Please select an object</p>
