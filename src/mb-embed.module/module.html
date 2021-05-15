@@ -1,10 +1,12 @@
-{% from '/media-bridge/mb-hubl-macros.html' import mb_embed, no_selected_media_error %}
-
-{% if module.embed_field.media_bridge_object.oembed_url %}
-  {{ mb_embed(module.embed_field, {
-    reveal_on: module.reveal_on,
-    poster_url: module.custom_poster.src,
-  }) }}
-{% else %}
-  <div>{{ no_selected_media_error }}</div>
-{% endif %}
+<!-- please scope css under a unique classname for your app to prevent conflicts -->
+<div class="hs-examples">
+  {% if module.embed_field.media_bridge_object.oembed_url %}
+    {% media_bridge_embed
+      media_bridge_object={{ module.embed_field.media_bridge_object }}
+      poster_url={{ module.custom_poster.src }}
+      reveal_on={{ module.custom_poster.src ? 'click' : 'load' }}
+    %}
+  {% else %}
+    <p>The `embed_field` parameter must have a Media Bridge object selected to display.</p>
+  {% endif %}
+</div>

@@ -16,55 +16,38 @@ We recommend this approach for adding MB to the default video module, or when th
 ![Embed field sizing options](./docs/embed-field-video-selected.png)
 
 ## CRM object `crm_object.module`
-
 Uses the `crm_object` function to query for media selected in an Embed field, which allows using default and custom properties as an alternative to the oembed response.
 
-> :construction: **The modules below rely on experimental macros which currently have to be imported** An official HubL tag may be available instead soon.
-
 ### MB Embed - `mb-embed.module`
-Renders a oEmbed player, designed for iframe-based players in Pages and Blog Posts.
-The embed player can be revealed on load, hover, or click, and the placeholder "poster image" shown initially can be customized.
-
-### MB Eager embed - `mb-eager-embed.module`
-Simply outputs the oEmbed response `html` in a wrapper div. If `media-bridge-embed-js` finds an iframe already present, it will add the `?hs_utk` query param if available (however this will cause it to reload).
-This may be suitable when a third party script is managing rendering and handling MB events instead.
+Renders an oEmbed player, designed for iframe-based players in Pages and Blog Posts. A custom poster image from files can be specified requiring a click to reveal the player.
 
 ### MB Email Embed (Experimental) - `mb-email-embed.module`
-Renders a linked poster image with a play button, suitable for emails.
+Renders a player fallback appropriate for email based on the oEmbed thumbnail, essentially a linked image without JS/CSS dependencies.
+The image links to the oembed_url url by default, but possible to customize.
+It will show a poster image based on the oembed `thumbnail_url` by default, which is possible to override with an image from Files.
+When a custom poster image is selected, a play button of a specific color can be overlayed on it as well.
 
-## HubL macro helpers
-The modules rely on `mb-hubl-macros.html` which currently has to be imported, but an official HubL tag based on this will likely be published soon.
-While not required, the macros generate markup around embeds which the helper script relies on to work.
+*Note* Currently the module must link to a HubSpot CMS page where the MB media is embedded in order to track play events.
 
+### `media_bridge_embed` HubL Tag
 
-### Macro reference
-
-#### `mb_embed`
-Renders a wrapper for a player based on embed field oEmbed value, which will include the `media-bridge-embed-js` helper script.
+Renders a player based on the MB media selected for an Embed field, and will include the `media-bridge-embed-js` helper script automatically.
 
 ```
-mb_embed(embed_field, options) %}
+{% media_bridge_embed %}
 
-Options:
-- eager - render oembed html directly if true, defaults to false. recommended only if not using simple iframe players
-- reveal_on - when to transform the placeholer into a full player, only applies when `eager` is not true. options: load (default), hover, click
+Params:
+- media_bridge_object - dict representing the media bridge object to embed, with keys id, provider_id, oembed_url, and oembed_response. this can be obtained via {{ module.field.media_bridge_object }}
+- render_mode - string. `cached` and `fetched` attempt to add tracking parameters initially to prevent reloading the iframe.
+  - cached (default): render cached oembed html via JS
+  - refetch: fetch the oembed url every view and render via JS. 
+  - eager: render cached oembed html server-side.
 - poster_url - customize placeholder image (defaults to oembed thumbnail)
-```
-
-#### `mb_email_embed` (experimental)
-Renders an email appropriate player based on the oEmbed thumbnail, essentially a linked image without JS/CSS dependencies.
-It will show a poster image based on the oembed thumbnail, linked to the oembed_url by default but possible to override with an image from Files.
-When a custom poster URL is selected, a play button of a specific color can be overlayed on it as well.
-
-*Note* Currently the module must link to a CMS page where the MB media is embedded in order to track play events.
-
-```
-mb_email_embed(embed_field, options) %}
-
-Options:
-- link_url - customize where placeholder links (defaults to oembed url)
-- poster_url - customize placeholder image (defaults to oembed `thumbnail_url`)
-- play_button_color - shows SVG play button overlay of specific color (experimental)
+- placeholder_html - extra markup to be rendered inside the wrapper, can be used in a {% widget_attribute %} within a {% widget_block %} like `rich_text`. elements with `hs-mb-embed-placeholder` class will be hidden as player is revealed
+- reveal_on - string. overriding does not with with `eager` render_mode
+  - load (default): reveal player ASAP
+  - click: reveal player when poster image/placholder_html is clicked
+  - defer: do not reveal player until `hsMediaBridgeApi.revealDeferredPlayer(oembed_url)` is called
 ```
 
 ## Sizing options
@@ -83,4 +66,4 @@ These options placed on the wrapper div in a `data-size-type` attribute.
 ## Installation
 - Make sure you're set up for [local development](https://designers.hubspot.com/tutorials/getting-started) with the [HubSpot CMS CLI](https://designers.hubspot.com/docs/developer-reference/local-development-cms-cli).
 - Clone this repo and install dependencies by running `yarn install`
-- To upload the modules to your HubSpot account, run `yarn upload-macros && yarn upload`. The assets will be placed inside a `media-bridge/` folder in the Design Manager.
+- To upload the modules to your HubSpot account, run `yarn upload`. The assets will be placed inside a `media-bridge/` folder in the Design Manager.
