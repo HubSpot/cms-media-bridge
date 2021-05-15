@@ -26,7 +26,7 @@ When a custom poster image is selected, a play button of a specific color can be
 
 *Note* Currently the module must link to a HubSpot CMS page where the MB media is embedded in order to track play events.
 
-### `media_bridge_embed` HubL Tag
+### `media_bridge_embed` HubL Tag :new:
 Renders a player based on the MB media selected for an Embed field, and will include the `media-bridge-embed-js` helper script automatically.
 
 ```
@@ -52,7 +52,7 @@ The `media_bridge_embed` tag strives to support sizing options in pure CSS, but 
 
 ![Embed field sizing options](./docs/embed-field-sizing-options.png)
 
-The `media_bridge_embed` tag places the selected Size option placed on the wrapper div in a `data-size-type` attribute. Extra customizations can be applied based on this in [`module.css`](./src/module.css).
+The `media_bridge_embed` tag places the selected Size option placed on the wrapper div in a `data-size-type` attribute. Extra customizations can be applied based on this in [`module.css`](./src/mb-embed.module/module.css).
 - Original size (`size_type: auto`) - Based on the dimensions in the oEmbed response, but attempts to stay responsive
 - Exact size (`size_type: exact`) - Based on the exact width and height the user providers, saved on the field as `width/height` 
 - Full width (`size_type: auto_full_width`) - Fill the container responsively
