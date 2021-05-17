@@ -3,17 +3,17 @@
   {% set object_type_suffix = '_Videos' %}
   {% if embed_field_value.media_type == 'IMAGE' %}
     {% set object_type_suffix = '_Images' %}
-  {% else if embed_field_value.media_type == 'AUDIO' %}
+  {% elif embed_field_value.media_type == 'AUDIO' %}
     {% set object_type_suffix = '_Audio' %}
   {% endif %}
-  {% set object_type = 'a' + embed_field_value.provider_id + object_type_suffix %}
+  {% set object_type = 'a' ~ embed_field_value.provider_id ~ object_type_suffix %}
   {% set media_object = crm_object(object_type, embed_field_value.id, "hs_title,hs_oembed_url,hs_file_url,hs_thumbnail_url,hs_poster_url,hs_details_page_link") %}
 
   {% if media_object %}
     <div>
       <h3>{{ media_object.hs_title }}</h3>
-      {% if crm_object.hs_thumbnail_url %}
-        <img src="{{ crm_object.hs_thumbnail_url }}" />
+      {% if media_object.hs_thumbnail_url %}
+        <img src="{{ media_object.hs_thumbnail_url }}" />
       {% endif %}
       <pre>CRM object: {{ media_object|pprint }}</pre>
     </div>

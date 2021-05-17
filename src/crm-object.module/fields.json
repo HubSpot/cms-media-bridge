@@ -3,6 +3,8 @@
     "name": "embed_field",
     "label": "Media",
     "supported_source_types": ["media_bridge"],
+    "show_preview": false,
+    "resizable": false,
     "type": "embed"
   }
 ]
