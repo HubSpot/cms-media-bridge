@@ -1,0 +1,37 @@
+[
+  {
+    "name": "embed_field",
+    "label": "Media",
+    "required": false,
+    "locked": false,
+    "supported_source_types": [
+      "media_bridge"
+    ],
+    "supported_media_bridge_providers": [],
+    "show_preview": false,
+    "resizable": false,
+    "type": "embed"
+  },
+  {
+    "type": "choice",
+    "display": "select",
+    "choices": [
+      [
+        "cached",
+        "cached"
+      ],
+      [
+        "eager",
+        "eager"
+      ],
+      [
+        "refetch",
+        "refetch"
+      ]
+    ],
+    "label": "Render mode",
+    "inline_help_text": "Demonstrates media_bridge_embed tag's `render_mode` param.",
+    "name": "render_mode",
+    "default": "cached"
+  }
+]

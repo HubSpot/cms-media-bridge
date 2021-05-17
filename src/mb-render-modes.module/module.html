@@ -1,0 +1,8 @@
+{% if module.embed_field.media_bridge_object.oembed_url %}
+  {% media_bridge_embed
+    media_bridge_object={{ module.embed_field.media_bridge_object }}
+    render_mode={{ module.render_mode }}
+  %}
+{% else %}
+  <p>The `embed_field` parameter must have a Media Bridge object selected to display.</p>
+{% endif %}
