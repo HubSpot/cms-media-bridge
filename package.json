@@ -7,10 +7,9 @@
   "author": "lbryant <lbryant@hubspot.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "upload-macros": "hs upload src/mb-hubl-macros.html media-bridge/mb-hubl-macros.html",
-    "upload-embed-field": "hs upload src/embed-field-with-mb.module media-bridge/embed-field-with-mb.module",
     "upload-crm-object": "hs upload src/crm-object.module media-bridge/crm-object.module",
-    "upload": "hs upload src/mb-embed.module media-bridge/mb-embed.module && hs upload src/mb-email-embed.module media-bridge/mb-email-embed.module && hs upload src/mb-eager-embed.module media-bridge/mb-eager-embed.module"
+    "upload-embed-field": "hs upload src/embed-field-with-mb.module media-bridge/embed-field-with-mb.module",
+    "upload": "hs upload src/mb-embed.module media-bridge/mb-embed.module && hs upload src/mb-email-embed.module media-bridge/mb-email-embed.module && yarn upload-crm-object && yarn upload-embed-field"
   },
   "devDependencies": {
     "@hubspot/cms-cli": "^2.2.3"

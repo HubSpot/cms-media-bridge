@@ -1,19 +1,23 @@
-/* styles suggested to support responsive sizing options */
+/* styles suggested to support responsive sizing options. please scope under selector specific to your module */
 
-.hs-mb-embed-wrapper {
+.hs-examples .hs-mb-embed-wrapper {
   max-width: 100%;
 }
 
-.hs-mb-embed-wrapper[data-size-type="auto_custom_max"] .hs-mb-iframe-wrapper,
-.hs-mb-embed-wrapper[data-size-type="auto_full_width"] .hs-mb-iframe-wrapper {
+.hs-examples .hs-mb-embed-wrapper[data-size-type="auto_custom_max"] .hs-mb-iframe-wrapper,
+.hs-examples .hs-mb-embed-wrapper[data-size-type="auto_full_width"] .hs-mb-iframe-wrapper {
   height: 0;
   padding-bottom: 56.25%;
   position: relative;
 }
 
-.hs-mb-embed-wrapper[data-size-type="auto_custom_max"] .hs-mb-iframe-wrapper iframe,
-.hs-mb-embed-wrapper[data-size-type="auto_full_width"] .hs-mb-iframe-wrapper iframe {
+.hs-examples .hs-mb-embed-wrapper[data-size-type="auto_custom_max"] .hs-mb-iframe-wrapper iframe,
+.hs-examples .hs-mb-embed-wrapper[data-size-type="auto_full_width"] .hs-mb-iframe-wrapper iframe {
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.hs-examples .hs-mb-embed-placeholder {
+  cursor: pointer;
 }

@@ -19,41 +19,10 @@
     }
   },
   {
-    "name": "reveal_on",
-    "label": "Reveal On",
-    "required": false,
-    "locked": false,
-    "display": "select",
-    "choices": [
-      ["load", "Load"],
-      ["hover", "Hover"],
-      ["click", "Click"]
-    ],
-    "type": "choice",
-    "default": "load"
-  },
-  {
-    "id": "custom_poster_enabled",
-    "name": "custom_poster_enabled",
-    "label": "Custom Poster Enabled",
-    "required": false,
-    "locked": false,
-    "display": "checkbox",
-    "type": "boolean",
-    "default": false
-  },
-  {
     "name": "custom_poster",
     "label": "Custom Poster",
     "required": false,
     "locked": false,
-    "visibility": {
-      "controlling_field": "custom_poster_enabled",
-      "controlling_value_regex": "true",
-      "operator": "EQUAL",
-      "access": null,
-      "hidden_subfields": null
-    },
     "responsive": true,
     "resizable": false,
     "show_loading": false,

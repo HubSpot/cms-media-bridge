@@ -61,5 +61,5 @@ A poster image is preferable to nothing as a fallback, or until it can be enhanc
 By default placeholders are replaced with players on load (or as soon as the UTK can be obtained). The `data-reveal-on` attribute can customize this
 
 `data-reveal-on`
-- `hover` will require a mouseenter event on the wrapper before injecting the iframe
 - `click` will require a click before injecting the iframe. `autoplay=1` will be appended to the iframe URL in hopes the initial click will start the video
+- `defer` will wait for `hsMediaBridgeApi.revealDeferredPlayer(oembedUrl)` to be called to reveal player iframe
