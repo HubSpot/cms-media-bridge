@@ -3,5 +3,5 @@
   "icon": "fontawesome-5.14.0:Play%20Circle:SOLID",
   "host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"],
   "label": "[Media Bridge Examples] Render modes",
-  "is_available_for_new_content": false
+  "is_available_for_new_content": true
 }
