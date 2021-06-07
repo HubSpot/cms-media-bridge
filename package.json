@@ -9,7 +9,8 @@
   "scripts": {
     "upload-crm-object": "hs upload src/crm-object.module media-bridge/crm-object.module",
     "upload-embed-field": "hs upload src/embed-field-with-mb.module media-bridge/embed-field-with-mb.module",
-    "upload": "hs upload src/mb-embed.module media-bridge/mb-embed.module && hs upload src/mb-email-embed.module media-bridge/mb-email-embed.module && yarn upload-crm-object && yarn upload-embed-field"
+    "upload-render-modes": "hs upload src/mb-render-modes.module media-bridge/mb-render-modes.module",
+    "upload": "hs upload src/mb-embed.module media-bridge/mb-embed.module && hs upload src/mb-email-embed.module media-bridge/mb-email-embed.module && yarn upload-crm-object && yarn upload-embed-field && yarn upload-render-modes"
   },
   "devDependencies": {
     "@hubspot/cms-cli": "^2.2.3"

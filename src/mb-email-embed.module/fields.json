@@ -75,6 +75,7 @@
     "required": false,
     "locked": false,
     "type": "color",
+    "inline_help_text": "Only works for images in Files via custom_poster",
     "visibility": {
       "controlling_field": "custom_poster_enabled",
       "controlling_value_regex": "true",

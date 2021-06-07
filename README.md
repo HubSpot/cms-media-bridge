@@ -26,8 +26,8 @@ When a custom poster image is selected, a play button of a specific color can be
 
 *Note* Currently the module must link to a HubSpot CMS page where the MB media is embedded in order to track play events.
 
-### `media_bridge_embed` HubL Tag :new:
-Renders a player based on the MB media selected for an Embed field, and will include the `media-bridge-embed-js` helper script automatically.
+### `media_bridge_embed` HubL Tag
+:new: Renders a player based on the MB media selected for an Embed field, and will include the `media-bridge-embed-js` helper script automatically.
 
 ```
 {% media_bridge_embed %}

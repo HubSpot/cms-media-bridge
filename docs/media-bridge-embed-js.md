@@ -1,14 +1,14 @@
 # media-bridge-embed-js
 
 Helper JS for rendering Media Bridge embeds.
-[The `hubspotutk` cookie](https://developers.hubspot.com/docs/api/events/tracking-code) will be added as the `?hs_utk` query param to player `iframe`s if available.
-
+[The `hubspotutk` cookie](https://developers.hubspot.com/docs/api/events/tracking-code) will be added to the iframe URL as the `?hs_utk` query param if available.
+The `?hs_portal_id` query param will also be included to allow tracking a play event.
 
 ## Alternatives
 For a Media Bridge integration which is not based on `iframe` players, we recommend including a third party script to utilize the `hubspotutk` cookie for tracking play events.
 
 ## Installation
-Add this to a custom module. This is automatic if using the `mb_embed` macro
+Add this to a custom module. This is automatic if using [the `media_bridge_embed` HubL tag](../README.md#media_bridge_embed-hubl-tag) (recommended).
 ```
 {{ require_js('https://static.hsappstatic.net/media-bridge-embed-js/ex/v1.js' }}
 ```

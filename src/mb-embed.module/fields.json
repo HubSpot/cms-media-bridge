@@ -6,17 +6,7 @@
     "locked": false,
     "supported_source_types": ["media_bridge"],
     "supported_media_bridge_providers": [],
-    "type": "embed",
-    "default": {
-      "source_type": "media_bridge",
-      "media_bridge_object": {
-        "id": null,
-        "oembed_url": "",
-        "provider_id": null,
-        "oembed_response": {},
-        "size_type": "auto"
-      }
-    }
+    "type": "embed"
   },
   {
     "name": "custom_poster",
@@ -26,12 +16,6 @@
     "responsive": true,
     "resizable": false,
     "show_loading": false,
-    "type": "image",
-    "default": {
-      "size_type": "auto",
-      "src": "",
-      "alt": null,
-      "loading": "disabled"
-    }
+    "type": "image"
   }
 ]

@@ -1,14 +1,16 @@
 {% macro mb_email_embed(embed_field, options) %}
-  {% set field_value = embed_field.source_type == "media_bridge" ? embed_field.media_bridge_object : embed_field %}
-  {% set oembed_response = field_value.oembed_response %}
+  {% set field_value = embed_field.media_bridge_object %}
   {% set link_url = options.link_url || field_value.oembed_url %}
+
+  {# try to fetch refresh oembed response, fallback to persisted field value if oembed() returns nothing #}
+  {% set oembed_response = oembed({ url: embed_field.media_bridge_object.oembed_url }) || field_value.oembed_response %}
   {% set img_alt = oembed_response.title %}
   {% set img_src = oembed_response.thumbnail_url %}
   {% if oembed_response.type == "photo" && oembed_response.url %}
     {% set img_src = oembed_response.url %}
   {% endif %}
-  {% set max_body_width = current_column_content_width is number ? current_column_content_width : email_body_width|default(600) %}
 
+  {% set max_body_width = current_column_content_width is number ? current_column_content_width : email_body_width|default(600) %}
   {% set img_width = field_value.width %}
   {% if current_column_content_width is number && current_column_content_width < img_width %}
     {% set img_width = max_body_width %}
@@ -39,13 +41,12 @@
   {% endif %}
 {% endmacro %}
 
-
 {% if module.embed_field.media_bridge_object.oembed_url %}
   {{ mb_email_embed(module.embed_field, {
-    link_url: module.custom_link_enabled ? module.custom_link_url.href : none,
-    custom_poster: module.custom_poster_enabled ? module.custom_poster : none,
+    link_url: module.custom_link_enabled ? module.custom_link_url.href : null,
+    custom_poster: module.custom_poster_enabled ? module.custom_poster : null,
     play_button_color: module.play_button_color.color,
   }) }}
 {% else %}
-  <p>Select Media Bridge media to display.</p>
+  <p>The `embed_field` must have a Media Bridge object selected to display.</p>
 {% endif %}
